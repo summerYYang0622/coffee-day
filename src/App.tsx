@@ -212,6 +212,7 @@ export default function App() {
     [formDate, setFormDate] = useState(today),
     [error, setError] = useState(""),
     [toast, setToast] = useState("");
+  const [recentPage, setRecentPage] = useState(0);
   const [plan, setPlan] = useState(data.plan),
     [saved, setSaved] = useState(false);
   useEffect(() => {
@@ -394,7 +395,7 @@ export default function App() {
           </button>
         </div>
       </header>
-      <main id="main">
+      <main id="main" className={`view-${route}`}>
         {route === "today" && (
           <>
             <section className="hero">
@@ -667,29 +668,70 @@ export default function App() {
                       </Button>
                     </div>
                   ) : (
-                    recent.slice(0, 8).map((key) => (
-                      <button
-                        className="entry-row"
-                        key={key}
-                        onClick={() => openEntry(key)}
+                    recent
+                      .slice(
+                        Math.min(
+                          recentPage,
+                          Math.max(0, Math.ceil(recent.length / 3) - 1),
+                        ) * 3,
+                        (Math.min(
+                          recentPage,
+                          Math.max(0, Math.ceil(recent.length / 3) - 1),
+                        ) +
+                          1) *
+                          3,
+                      )
+                      .map((key) => (
+                        <button
+                          className="entry-row"
+                          key={key}
+                          onClick={() => openEntry(key)}
+                        >
+                          <time>
+                            {parseDate(key).toLocaleDateString(locale, {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </time>
+                          <span>
+                            {data.entries[key].status === "free"
+                              ? t("今天没喝", "No coffee")
+                              : t(
+                                  `${coffees[data.entries[key].kind][0]} · ${data.entries[key].cups} 杯`,
+                                  `${coffees[data.entries[key].kind][1]} · ${data.entries[key].cups} cup(s)`,
+                                )}
+                          </span>
+                          <Pencil />
+                        </button>
+                      ))
+                  )}
+                  {recent.length > 3 && (
+                    <div className="recent-pagination">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={t("上一页记录", "Previous entries")}
+                        disabled={recentPage === 0}
+                        onClick={() => setRecentPage((p) => Math.max(0, p - 1))}
                       >
-                        <time>
-                          {parseDate(key).toLocaleDateString(locale, {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </time>
-                        <span>
-                          {data.entries[key].status === "free"
-                            ? t("今天没喝", "No coffee")
-                            : t(
-                                `${coffees[data.entries[key].kind][0]} · ${data.entries[key].cups} 杯`,
-                                `${coffees[data.entries[key].kind][1]} · ${data.entries[key].cups} cup(s)`,
-                              )}
-                        </span>
-                        <Pencil />
-                      </button>
-                    ))
+                        <ChevronLeft />
+                      </Button>
+                      <span>
+                        {Math.min(recentPage + 1, Math.ceil(recent.length / 3))}{" "}
+                        / {Math.ceil(recent.length / 3)}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={t("下一页记录", "Next entries")}
+                        disabled={
+                          recentPage >= Math.ceil(recent.length / 3) - 1
+                        }
+                        onClick={() => setRecentPage((p) => p + 1)}
+                      >
+                        <ChevronRight />
+                      </Button>
+                    </div>
                   )}
                 </section>
               </div>
