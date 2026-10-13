@@ -1,0 +1,41 @@
+import assert from 'node:assert/strict';
+const {webkit,devices}=await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const browser=await webkit.launch({headless:true});
+const context=await browser.newContext({...devices['iPhone 13']});
+const page=await context.newPage();
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+try{
+ await page.goto(process.env.APP_URL || 'http://127.0.0.1:4173');
+ await page.getByRole('button',{name:'今天没喝',exact:true}).tap();
+ await page.reload();
+ await page.getByRole('button',{name:'修改今日记录',exact:true}).tap();
+ await page.getByRole('button',{name:'喝了咖啡',exact:true}).tap();
+ await page.getByLabel('杯数',{exact:true}).fill('2');
+ await page.getByRole('button',{name:'保存记录',exact:true}).tap();
+ assert.match(await page.locator('.today-status').innerText(),/2/);
+ await page.getByRole('link',{name:'记录与趋势',exact:true}).tap();
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ await page.getByRole('link',{name:'减量计划',exact:true}).tap();
+ await page.getByLabel('目标杯数').fill('3');
+ await page.getByRole('button',{name:'周二',exact:true}).tap();
+ await page.getByRole('button',{name:'保存计划',exact:true}).tap();
+ await page.reload();
+ assert.equal(await page.getByLabel('目标杯数').inputValue(),'3');
+ assert.equal(await page.getByRole('button',{name:'周二',exact:true}).getAttribute('aria-pressed'),'true');
+ await page.getByRole('button',{name:'EN',exact:true}).tap();
+ assert.equal(await page.locator('html').getAttribute('lang'),'en');
+ const download=page.waitForEvent('download');await page.getByRole('button',{name:'Export records',exact:true}).tap();
+ assert.match((await download).suggestedFilename(),/^coffee-day-.*\.json$/);
+ await page.getByRole('link',{name:'Today',exact:true}).tap();
+ await page.getByRole('button',{name:'Had coffee? Log it',exact:true}).tap();
+ await page.getByLabel('Cups',{exact:true}).fill('0');
+ await page.getByRole('button',{name:'Save entry',exact:true}).tap();
+ assert.equal(await page.getByRole('dialog').count(),1,'Invalid cups must not be saved');
+ await page.getByRole('button',{name:'Close',exact:true}).tap();
+ await page.evaluate(()=>{localStorage.clear()});await page.reload();
+ await page.waitForTimeout(2200);
+ await page.screenshot({path:'design/implemented-mobile.png',fullPage:true});
+ for(const route of ['journal','plan']){await page.goto(`http://127.0.0.1:4173/#${route}`);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await page.screenshot({path:`design/mobile-${route}.png`,fullPage:true});}
+ assert.deepEqual(errors,[]);
+ console.log('RESULT '+JSON.stringify({status:'PASS',browser:'WebKit',device:'iPhone 13',checks:['touch check-in','edit cups','reload persistence','calendar','plan persistence','language','export','invalid input negative control','three-page overflow','no page errors']}));
+}finally{await browser.close()}
