@@ -4,7 +4,7 @@
 
 一个帮助你慢慢减少咖啡的中英文记录网页：记下每一天，回顾变化，再为自己设定一个小目标。
 
-[UI 原型](#ui-原型) · [功能与网页截图](#功能与网页截图) · [架构图](#架构图) · [图片素材](#图片素材) · [启动项目](#启动项目) · [提交记录](https://github.com/summerYYang0622/coffee-day/commits/main/)
+[UI 原型](#ui-原型) · [功能与网页截图](#功能与网页截图) · [架构图](#架构图) · [图片素材](#图片素材) · [启动项目](#启动项目) · [测试报告](#测试报告) · [提交记录](https://github.com/summerYYang0622/coffee-day/commits/main/)
 
 ![Coffee Day 当前桌面首页](docs/images/screen-today.jpg)
 
@@ -201,13 +201,27 @@ pnpm preview --host 127.0.0.1 --port 4173
 **在哪里查看代码提交？**  
 打开 [main 分支](https://github.com/summerYYang0622/coffee-day/tree/main) 或 [全部提交记录](https://github.com/summerYYang0622/coffee-day/commits/main/)。私有仓库需要登录有访问权限的账号。
 
+## 测试报告
+
+最近一次本地验收：**2026 年 10 月 13 日**。以下为实际执行结果，完整步骤、环境、证据与未覆盖范围见 **[完整测试报告](docs/TEST-REPORT.md)**。
+
+| 检查项目 | 结果 | 验证内容 |
+| --- | --- | --- |
+| 逻辑测试 | 2 项通过，0 项失败 | 日期、闰年、无记录与未喝咖啡的区别、杯数统计 |
+| TypeScript 与生产构建 | 通过 | 类型检查及 Vite 构建 |
+| Chromium 桌面浏览器 | 12 组检查通过 | 动画、暂停、手动切换、打卡、修改、刷新保存、中英文、计划及运行错误 |
+| 桌面不滚动布局 | 12 种组合通过 | 4 种屏幕尺寸 × 3 个页面，无横向或纵向溢出 |
+| WebKit 手机模拟 | 10 类检查通过 | 触屏操作、保存、导出触发、非法杯数拦截及记录/计划页横向溢出检查 |
+
+桌面布局检查包含在 Chromium 的 12 组检查中，不重复计数。手机使用 iPhone 13 模拟环境；记录与计划页在手机上允许纵向滚动。测试结果对应本地预览，不代表已部署的线上网站。
+
+[逻辑测试日志](docs/test-results/unit.txt) · [构建日志](docs/test-results/build.txt) · [Chromium 结果](docs/test-results/chromium.json) · [WebKit 结果](docs/test-results/webkit.txt)
+
 ## 检查与开发文档
 
 ```bash
 pnpm test    # 日期与统计逻辑测试
 pnpm build   # TypeScript 检查和正式构建
 ```
-
-项目还通过 Chromium 和 WebKit 手机触屏环境检查过打卡、修改、刷新保存、语言切换、计划设置与导出。
 
 [开发过程与实际使用的命令](docs/DEVELOPMENT.md) · [图片生成提示词](ASSETS.md) · [自动检查配置](.github/workflows/check.yml)

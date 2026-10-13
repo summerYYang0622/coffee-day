@@ -1,0 +1,160 @@
+{
+  "status": "PASS",
+  "browser": "155.0.8059.40",
+  "testedAt": "2026-10-13T04:54:09.230Z",
+  "checks": [
+    {
+      "name": "Automatic scene transition",
+      "status": "PASS",
+      "observed": {
+        "a": "1",
+        "b": "1"
+      }
+    },
+    {
+      "name": "Center remains fixed",
+      "status": "PASS",
+      "observed": {
+        "x": 328.36328125,
+        "y": 162.7265625,
+        "width": 709.2734375,
+        "height": 299.453125
+      }
+    },
+    {
+      "name": "Pause all cards",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "Manual scene selection",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "Check-in persists after reload",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "Edit entry",
+      "status": "PASS",
+      "observed": "今天已记录：2 杯美式"
+    },
+    {
+      "name": "Language switch",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "Plan persistence",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "Desktop viewport layouts",
+      "status": "PASS",
+      "observed": [
+        {
+          "w": 1280,
+          "h": 650,
+          "route": "today",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1280,
+          "h": 650,
+          "route": "journal",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1280,
+          "h": 650,
+          "route": "plan",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1366,
+          "h": 768,
+          "route": "today",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1366,
+          "h": 768,
+          "route": "journal",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1366,
+          "h": 768,
+          "route": "plan",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1440,
+          "h": 900,
+          "route": "today",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1440,
+          "h": 900,
+          "route": "journal",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1440,
+          "h": 900,
+          "route": "plan",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1920,
+          "h": 1080,
+          "route": "today",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1920,
+          "h": 1080,
+          "route": "journal",
+          "vertical": true,
+          "horizontal": true
+        },
+        {
+          "w": 1920,
+          "h": 1080,
+          "route": "plan",
+          "vertical": true,
+          "horizontal": true
+        }
+      ]
+    },
+    {
+      "name": "Reduced-motion preference",
+      "status": "PASS",
+      "observed": true
+    },
+    {
+      "name": "JavaScript errors",
+      "status": "PASS",
+      "observed": []
+    },
+    {
+      "name": "HTTP errors",
+      "status": "PASS",
+      "observed": []
+    }
+  ]
+}

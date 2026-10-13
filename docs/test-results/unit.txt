@@ -1,0 +1,11 @@
+$ node --experimental-strip-types --test tests/data.test.ts
+✔ calendar handles local dates, leap days and invalid dates (0.951125ms)
+✔ missing days are not coffee-free and cup totals stay separate from days (0.336417ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.068542

@@ -1,0 +1,1 @@
+RESULT {"status":"PASS","browser":"WebKit","device":"iPhone 13","checks":["touch check-in","edit cups","reload persistence","calendar","plan persistence","language","export","invalid input negative control","three-page overflow","no page errors"]}
